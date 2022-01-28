@@ -57,7 +57,59 @@ namespace EmployeeManagement
                 this.connection.Close();
             }
         }
-      
+        public void GetAllEmployee()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"Select EmployeeName,PhoneNumber,Address,Department,Gender,BasicPay,Deductions,TaxablePay,Tax,NetPay,StartDate,City,Country from EmployeesTable";
+
+                    SqlCommand cmd = new SqlCommand(query, this.connection);
+
+                    this.connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            //employeeModel.EmployeeID = dr.GetInt32(0);
+                            employeeModel.EmployeeName = dr.GetString(0);
+                            employeeModel.PhoneNumber = dr.GetString(1);
+                            employeeModel.Address = dr.GetString(2);
+                            employeeModel.Department = dr.GetString(3);
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(4));
+                            employeeModel.BasicPay = dr.GetDouble(5);
+                            employeeModel.Deductions = dr.GetDouble(6);
+                            employeeModel.TaxablePay = dr.GetDouble(7);
+                            employeeModel.Tax = dr.GetDouble(8);
+                            employeeModel.NetPay = dr.GetDouble(9);
+                            employeeModel.StartDate = Convert.ToDateTime(dr.GetDateTime(10));
+                            employeeModel.City = dr.GetString(11);
+                            employeeModel.Country = dr.GetString(12);
+
+                            Console.WriteLine("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10} | {11} | {12}", employeeModel.EmployeeName, employeeModel.PhoneNumber, employeeModel.Address, employeeModel.Department, employeeModel.Gender, employeeModel.BasicPay, employeeModel.Deductions, employeeModel.TaxablePay, employeeModel.Tax, employeeModel.NetPay, employeeModel.StartDate, employeeModel.City, employeeModel.Country);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                    dr.Close();
+                    this.connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
  

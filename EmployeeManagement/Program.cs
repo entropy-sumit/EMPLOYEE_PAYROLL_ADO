@@ -23,10 +23,9 @@ namespace EmployeeManagement
             employee.City = "Banglore";
             employee.Country = "India";
             employee.StartDate = DateTime.Now;
+
             //uc1
             repo.AddEmployee(employee);
-            //uc2
-            //repo.GetAllEmployee();
         }
     }
 }
